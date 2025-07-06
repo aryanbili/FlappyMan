@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facely AI - Premium Facial Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        'dark-bg': '#0a0a0a',
+                        'dark-card': '#1a1a1a',
+                        'gold': '#ffd700',
+                        'neon': '#00ffff',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-poppins bg-dark-bg text-white min-h-screen">
+    <!-- Background Gradient -->
+    <div class="fixed inset-0 bg-gradient-to-br from-purple-900/20 via-dark-bg to-blue-900/20 -z-10"></div>
+    
+    <!-- Header -->
+    <header class="p-6 text-center">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-bold bg-gradient-to-r from-gold via-neon to-gold bg-clip-text text-transparent mb-2">
+                Facely AI
+            </h1>
+            <p class="text-gray-400 text-lg">Premium Facial Analysis Technology</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto p-6">
+        <!-- Onboarding Form -->
+        <div id="onboarding" class="glass-card p-8 mb-8">
+            <h2 class="text-2xl font-semibold mb-6 text-center">Welcome to Facely AI</h2>
+            <form id="onboardingForm" class="space-y-6">
+                <div>
+                    <label for="name" class="block text-sm font-medium mb-2">Full Name</label>
+                    <input type="text" id="name" name="name" required 
+                           class="w-full p-3 bg-white/10 border border-white/20 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent outline-none transition-all">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="age" class="block text-sm font-medium mb-2">Age</label>
+                        <input type="number" id="age" name="age" min="13" max="100" required 
+                               class="w-full p-3 bg-white/10 border border-white/20 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent outline-none transition-all">
+                    </div>
+                    <div>
+                        <label for="gender" class="block text-sm font-medium mb-2">Gender</label>
+                        <select id="gender" name="gender" required 
+                                class="w-full p-3 bg-white/10 border border-white/20 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent outline-none transition-all">
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="w-full btn-primary">
+                    Get Started
+                </button>
+            </form>
+        </div>
+
+        <!-- Main App Interface -->
+        <div id="mainApp" class="hidden">
+            <!-- Daily Limit Status -->
+            <div id="dailyStatus" class="glass-card p-4 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-medium">Daily Scans</h3>
+                        <p class="text-sm text-gray-400">Track your analysis usage</p>
+                    </div>
+                    <div class="text-right">
+                        <div id="scanCount" class="text-2xl font-bold text-gold">0/2</div>
+                        <div class="text-xs text-gray-400">Today</div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="w-full bg-white/10 rounded-full h-2">
+                        <div id="progressBar" class="bg-gradient-to-r from-gold to-neon h-2 rounded-full progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload Section -->
+            <div id="uploadSection" class="glass-card p-8 text-center">
+                <div class="mb-6">
+                    <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-r from-gold to-neon p-0.5">
+                        <div class="w-full h-full bg-dark-card rounded-full flex items-center justify-center">
+                            <svg class="w-10 h-10 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Upload Your Selfie</h3>
+                    <p class="text-gray-400">Get instant AI-powered facial analysis</p>
+                </div>
+                
+                <input type="file" id="imageUpload" accept="image/*" class="hidden">
+                <button id="uploadBtn" class="btn-primary mb-4">
+                    Choose Photo
+                </button>
+                
+                <div id="imagePreview" class="hidden mt-6">
+                    <div class="relative inline-block">
+                        <img id="previewImg" class="max-w-full max-h-64 rounded-lg shadow-lg" alt="Preview">
+                        <button id="removeImage" class="absolute -top-2 -right-2 w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <button id="analyzeBtn" class="btn-secondary mt-4">
+                        Start Analysis
+                    </button>
+                </div>
+            </div>
+
+            <!-- Analysis Loading -->
+            <div id="analysisLoading" class="glass-card p-8 text-center hidden">
+                <div class="mb-6">
+                    <div class="w-32 h-32 mx-auto relative">
+                        <svg class="w-32 h-32 transform -rotate-90" viewBox="0 0 120 120">
+                            <circle cx="60" cy="60" r="54" stroke="white" stroke-opacity="0.1" stroke-width="8" fill="none"/>
+                            <circle id="progressCircle" cx="60" cy="60" r="54" stroke="url(#gradient)" stroke-width="8" fill="none"
+                                    stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="339.292"/>
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#ffd700"/>
+                                    <stop offset="100%" style="stop-color:#00ffff"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span id="countdown" class="text-3xl font-bold text-gold">25</span>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Analyzing Your Face</h3>
+                <p class="text-gray-400">Our AI is processing your facial features...</p>
+                <div class="mt-4">
+                    <div class="flex justify-center space-x-1">
+                        <div class="w-2 h-2 bg-gold rounded-full animate-pulse" style="animation-delay: 0s"></div>
+                        <div class="w-2 h-2 bg-gold rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+                        <div class="w-2 h-2 bg-gold rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="hidden">
+                <div class="glass-card p-8 mb-6">
+                    <h2 class="text-2xl font-semibold mb-6 text-center">Your Analysis Results</h2>
+                    
+                    <!-- Overall Score -->
+                    <div class="text-center mb-8">
+                        <div class="inline-block p-6 rounded-full bg-gradient-to-r from-gold/20 to-neon/20 border border-gold/30">
+                            <div class="text-4xl font-bold text-gold" id="overallScore">8.5</div>
+                            <div class="text-sm text-gray-400">Overall Score</div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Metrics -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="glass-card p-6">
+                            <h4 class="font-semibold mb-4 text-gold">Facial Symmetry</h4>
+                            <div class="flex items-center justify-between mb-2">
+                                <span>Score</span>
+                                <span id="symmetryScore" class="font-bold">7.8</span>
+                            </div>
+                            <div class="w-full bg-white/10 rounded-full h-2">
+                                <div id="symmetryBar" class="bg-gradient-to-r from-gold to-neon h-2 rounded-full"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="glass-card p-6">
+                            <h4 class="font-semibold mb-4 text-neon">Feature Analysis</h4>
+                            <div id="bestFeatures" class="space-y-2">
+                                <!-- Features will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div class="glass-card p-6 mb-6">
+                        <h4 class="font-semibold mb-4 text-gold">Recommendations</h4>
+                        <div id="recommendations" class="space-y-2">
+                            <!-- Recommendations will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button id="uploadAnotherBtn" class="btn-secondary">
+                            Upload Another Photo
+                        </button>
+                        <button id="trackProgressBtn" class="btn-primary">
+                            Track My Progress
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Limit Reached -->
+            <div id="limitReached" class="glass-card p-8 text-center hidden">
+                <div class="w-24 h-24 mx-auto mb-4 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center">
+                    <svg class="w-10 h-10 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2 text-red-400">Daily Limit Reached</h3>
+                <p class="text-gray-400 mb-6">You've used all 2 scans for today. Come back tomorrow for more analysis!</p>
+                <div class="text-sm text-gray-500">
+                    Resets at midnight
+                </div>
+            </div>
+
+            <!-- Progress Tracking -->
+            <div id="progressSection" class="glass-card p-8 hidden">
+                <h3 class="text-xl font-semibold mb-6">Your Progress</h3>
+                <div id="progressHistory" class="space-y-4">
+                    <!-- Progress history will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
